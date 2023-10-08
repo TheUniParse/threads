@@ -5,12 +5,20 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    
+    "problem": "nodemon problem/server.js",
+    "multi_server1": "nodemon multi_servers/server1.js",
+    "multi_server2": "nodemon multi_servers/server2.js",
+    "process_child": "nodemon process_child/server.js",
+    "worker_threads": "nodemon worker_threads/server.js",
+    "cluster":"nodemon cluster/server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
   }
 }
