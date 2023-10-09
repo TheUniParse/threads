@@ -20,21 +20,26 @@ function divideWorkPromise(start, end) {
   const coreItems = Math.floor(items / cores)
   // const remainderItems = items % cores
 
-  const workersPromises = new Array(cores).fill(null).map((_, i) => {
-    const itemsDone = i * coreItems
-    const workerStart = start + itemsDone
+  const workersPromises = new Array(cores)
+    .fill(null)
+    .map((_, i) => {
+      const itemsDone = i * coreItems
+      const workerStart = start + itemsDone
 
-    const isLastWorker = i + 1 === cores
-    const workerEnd = isLastWorker
-      ? end // includes remainderItems
-      : workerStart + coreItems - 1
+      const isLastWorker = i + 1 === cores
+      const workerEnd = isLastWorker
+        ? end // includes remainderItems
+        : workerStart + coreItems - 1
 
-    const length = workerEnd - workerStart + 1
-    console.log(`core${i + 1}: start ${workerStart}, end ${workerEnd}, length ${length}`)
+      const length = workerEnd - workerStart + 1
+      console.log(
+        `core${i + 1
+        }: start ${workerStart}, end ${workerEnd}, length ${length}`
+      )
 
-    const workerData = { start: workerStart, end: workerEnd }
-    return workerPromise(workerData)
-  })
+      const workerData = { start: workerStart, end: workerEnd }
+      return workerPromise(workerData)
+    })
 
   return Promise.all(workersPromises)
   /** start=50 end=100 cores=4

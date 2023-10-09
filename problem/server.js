@@ -3,7 +3,9 @@ import { fibonacci, fibonacciPromise } from '../lib.js'
 
 const app = express()
 
-app.get('/', (req, res) => res.send('home'))
+app.get('/', (req, res) =>
+  res.send(`server ${process.pid} say Hi!!`)
+)
 
 // heavy task ~5000ms
 // http://localhost:3000/fib?n=42
@@ -17,7 +19,11 @@ app.get('/fib', (req, res) => {
   const endTime = Date.now()
 
   const time = endTime - startTime
-  res.json(`fibonacci(${n}) = ${result} : ${time}ms`)
+  res.send(
+    `server ${process.pid} says:
+    <br>
+    fibonacci(${n}) = ${result} : ${time}ms`
+  )
 })
 
 // heavy task ~5000ms
@@ -33,9 +39,13 @@ app.get('/async_fib', async (req, res) => {
   const endTime = Date.now()
 
   const time = endTime - startTime
-  res.json(`fibonacci(${n}) = ${result} : ${time}ms`)
+  res.send(
+    `server ${process.pid} says:
+    <br>
+    fibonacci(${n}) = ${result} : ${time}ms`
+  )
 })
 
 app.listen(3000, () =>
-  console.log('listen on http://localhost:3000')
+  console.log(`server ${process.pid} listen on port 3000`)
 )

@@ -11,13 +11,15 @@ const childPath = path.join(
 
 const app = express()
 
-app.get('/', (req, res) => res.send('home'))
+app.get('/', (req, res) =>
+  res.send(`server ${process.pid} say Hi!!`)
+)
 
 // heavy task ~5000ms
 // http://localhost:3000/fib?n=42
 // don't block other tasks
-// because the task execute on child_process
-app.get("/fib", async (req, res) => {
+// because the task execute on process_child
+app.get('/fib', async (req, res) => {
   const { n } = req.query
 
   const childProcess = fork(childPath)
@@ -32,10 +34,14 @@ app.get("/fib", async (req, res) => {
   const endTime = Date.now()
 
   const time = endTime - startTime
-  const { result } = resMessage
-  res.json(`fibonacci(${n}) = ${result} : ${time}ms`)
+  const { result, pid } = resMessage
+  res.send(
+    `process_child ${pid} says:
+    <br>
+    fibonacci(${n}) = ${result} : ${time}ms`
+  )
 })
 
 app.listen(3000, () =>
-  console.log('listen on http://localhost:3000')
+  console.log(`server ${process.pid} listen on port 3000`)
 )

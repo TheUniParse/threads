@@ -2,7 +2,9 @@ import express from 'express'
 
 const app = express()
 
-app.get('/', (req, res) => res.send('home'))
+app.get('/', (req, res) =>
+  res.send(`server1 ${process.pid} say Hi!!`)
+)
 
 // heavy task ~5000ms
 // http://localhost:3000/fib?n=42
@@ -15,13 +17,17 @@ app.get('/fib', async (req, res) => {
 
   const startTime = Date.now()
   const response = await fetch(url)
-  const result = await response.json()
+  const { result, pid } = await response.json()
   const endTime = Date.now()
 
   const time = endTime - startTime
-  res.json(`fibonacci(${n}) = ${result} : ${time}ms`)
+  res.send(
+    `server2 ${pid} says:
+    <br>
+    fibonacci(${n}) = ${result} : ${time}ms`
+  )
 })
 
 app.listen(3000, () =>
-  console.log('listen on http://localhost:3000')
+  console.log(`server1 ${process.pid} listen on port 3000`)
 )

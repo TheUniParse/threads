@@ -5,14 +5,12 @@ export const fibonacci = n => n <= 1
   ? 1
   : fibonacci(n - 1) + fibonacci(n - 2)
 
-export const fibonacciPromise = n => new Promise(rs => {
-  const result = fibonacci(n)
-  rs(result)
-})
+export const fibonacciPromise = n =>
+  new Promise(rs => rs(fibonacci(n)))
 
 // prime is +integer can only be divided by itself and 1
 // ex 2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 ...
-export const isPrime = (n) => {
+export const isPrime = n => {
   if (n <= 1) return false
 
   if (n === 2) return true
